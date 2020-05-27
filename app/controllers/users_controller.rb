@@ -5,18 +5,20 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
-      flash[:notice] = "You are now registered and logged in!"
+    @user = User.new(user_params)
+    if @user.save
+      flash[:success] = "You are now registered and logged in!"
+      session[:user_id] = @user.id
       redirect_to profile_path
     else
-      flash[:notice] = ""
+      flash[:error] = @user.errors.full_messages.to_sentence
+      render :new
     end
     
   end
 
   def show
-    @user = User.find(params[:user_id])
+    @user = User.find(session[:user_id])
   end
   
   private

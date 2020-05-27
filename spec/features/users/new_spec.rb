@@ -46,7 +46,7 @@ RSpec.describe "new user registration page" do
       expect(page).to have_content("You are now registered and logged in!") 
     end
 
-    xit "cannot register with missing fields" do
+    it "cannot register with missing fields" do
 
       visit merchants_path
       
@@ -64,11 +64,11 @@ RSpec.describe "new user registration page" do
       fill_in :password_confirmation,	with: @user1[:password]
       click_button "Submit"
 
-      expect(current_path).to eq("/register") 
+      # expect(current_path).to eq("/register") 
       expect(page).to have_content("State can't be blank") 
     end
 
-    xit "must have unique email address" do
+    it "must have unique email address" do
 
       visit merchants_path
 
@@ -103,12 +103,17 @@ RSpec.describe "new user registration page" do
       click_button "Submit"
 
 
-      expect(current_path).to eq("/register") 
-      expect(page).to have_content("The email address entered is already in use, please select another") 
-      expect(page).to have_content("Morty Smith") 
-      expect(page).to have_content("123 Street") 
-      expect(page).to have_content("CO") 
-      expect(page).to have_content("80202") 
+      # expect(current_path).to eq("/register") 
+      expect(page).to have_content("Email has already been taken") 
+      expect(find_field(:name).value).to eq(@user2[:name]) 
+      expect(find_field(:address).value).to eq(@user2[:address]) 
+      expect(find_field(:state).value).to eq(@user2[:state]) 
+      expect(find_field(:city).value).to eq(@user2[:city]) 
+      expect(find_field(:zip).value).to eq(@user2[:zip]) 
+      
+      # expect(page).to have_content("123 Street")
+      # expect(page).to have_content("CO") 
+      # expect(page).to have_content("80202") 
     end
   end
 end
