@@ -10,6 +10,13 @@ RSpec.describe "new user registration page" do
                 zip: "80202",
                 email: "PickleRick@example.com",
                 password: "GetSchwifty1")
+      @user2 = (name: "Morty Smith",
+                address: "321 Street",
+                city: "Aurora",
+                state: "CO",
+                zip: "80000",
+                email: "FluDance@example.com",
+                password: "Jessica2")
     end
 
     it "can fill out a form to create a new regular user" do
@@ -32,6 +39,65 @@ RSpec.describe "new user registration page" do
 
       expect(current_path).to eq("/profile") 
       expect(page).to have_content("Welcome #{@user1.name}, you are now registered and logged in!") 
+    end
+
+    it "cannot register with missing fields" do
+      
+      within 'nav' do
+        click_link 'Register'
+      end
+
+      fill_in :name,	with: @user1.name 
+      fill_in :address,	with: @user1.address 
+      fill_in :city,	with: @user1.city 
+      # fill_in :state,	with: @user1.state 
+      fill_in :zip,	with: @user1.zip 
+      fill_in :email,	with: @user1.email 
+      fill_in :password,	with: @user1.password 
+      fill_in :password_confirmation,	with: @user1.password
+      click_button "Submit"
+
+      expect(current_path).to eq("/register") 
+      expect(page).to have_content("Zip can't be blank") 
+    end
+
+    it "must have unique email address" do
+      
+      within 'nav' do
+        click_link 'Register'
+      end
+
+      fill_in :name,	with: @user1.name 
+      fill_in :address,	with: @user1.address 
+      fill_in :city,	with: @user1.city 
+      fill_in :state,	with: @user1.state 
+      fill_in :zip,	with: @user1.zip 
+      fill_in :email,	with: @user1.email 
+      fill_in :password,	with: @user1.password 
+      fill_in :password_confirmation,	with: @user1.password
+      click_button "Submit"
+
+      within 'nav' do
+        click_link 'Register'
+      end
+
+      fill_in :name,	with: @user2.name 
+      fill_in :address,	with: @user2.address 
+      fill_in :city,	with: @user2.city 
+      fill_in :state,	with: @user2.state 
+      fill_in :zip,	with: @user2.zip 
+      fill_in :email,	with: @user1.email 
+      fill_in :password,	with: @user2.password 
+      fill_in :password_confirmation,	with: @user2.password
+      click_button "Submit"
+
+      expect(current_path).to eq("/register") 
+      expect(page).to have_content("The email address entered is already in use, please select another") 
+      expect(page).to have_content(@user2.name) 
+      expect(page).to have_content(@user2.address) 
+      expect(page).to have_content(@user2.city) 
+      expect(page).to have_content(@user2.state) 
+      expect(page).to have_content(@user2.zip) 
     end
   end
 end
