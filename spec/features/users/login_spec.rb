@@ -97,10 +97,65 @@ RSpec.describe "user login/logout functionality" do
       expect(current_path).to eq(merchants_path) 
       expect(page).to have_content("You are now logged in as #{employee.name}")
     end
-    
+
+    it "will redirect to merchant dashboard if already logged in" do
+      
+      employee = create(:merchant_employee)
+
+      visit '/'
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+
+      visit login_path
+
+      expect(current_path).to eq(merchants_path)
+      expect(page).to have_content("You have already logged into your account!") 
+    end
     
   end
-  
+
+  context "as an admin" do
+    xit "can log into admin dashboard" do
+
+      admin = create(:admin)
+
+      visit "/"
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{admin.email}"
+      fill_in :password,	with: "#{admin.password}"
+
+      click_button "Login"
+
+      expect(current_path).to eq("/admin") 
+      expect(page).to have_content("You are now logged in as #{employee.name}")
+    end
+
+    xit "will redirect to admin dashboard if already logged in" do
+      
+      admin = create(:admin)
+
+      visit '/'
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{admin.email}"
+      fill_in :password,	with: "#{admin.password}"
+
+      click_button "Login"
+
+      visit login_path
+
+      expect(current_path).to eq(admin_path)
+      expect(page).to have_content("You have already logged into your account!") 
+    end
+  end
 end
 
 

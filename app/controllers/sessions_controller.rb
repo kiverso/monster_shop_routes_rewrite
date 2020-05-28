@@ -31,6 +31,7 @@ class SessionsController < ApplicationController
   def login_redirect
     redirect_to profile_path if current_default?
     redirect_to merchants_path if current_merchant?
+    # redirect_to admin_path if current_admin?
   end
   
   
