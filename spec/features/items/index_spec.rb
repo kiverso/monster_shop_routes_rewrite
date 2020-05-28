@@ -57,5 +57,56 @@ RSpec.describe "Items Index Page" do
         expect(page).to have_css("img[src*='#{@dog_bone.image}']")
       end
     end
+
+    xit "links to the show page from the item's image" do
+      visit items_path
+      find("img[src*='#{@tire.image}']").click
+      expect(current_path).to eq("/items/#{@tire.id}")
+
+      visit items_path
+      find("img[src*='#{@tire.image}']").click
+      expect(current_path).to eq("/items/#{@pull_toy.id}")
+
+      visit items_path
+      find("img[src*='#{@tire.image}']").click
+      expect(current_path).to eq("/items/#{@dog_bone.id}")
+    end
+
+    it "has statistics depending on the number of items ordered" do
+      mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
+      pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
+      homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000)
+      ItemOrder.create(order_id: homer.id, item_id: @tire.id, price: @tire.price, quantity: 2)
+      ItemOrder.create(order_id: homer.id, item_id: @pull_toy.id, price: @pull_toy.price, quantity: 1)
+      ItemOrder.create(order_id: homer.id, item_id: @dog_bone.id, price: @dog_bone.price, quantity: 5)
+      ItemOrder.create(order_id: homer.id, item_id: paper.id, price: paper.price, quantity: 3)
+      ItemOrder.create(order_id: homer.id, item_id: pencil.id, price: pencil.price, quantity: 4)
+
+      visit items_path
+      within ".most-popular-items" do
+        expect(page).to have_content("5")
+        expect(@dog_bone.name).to appear_before(pencil.name)
+        expect(page).to have_content("4")
+        expect(pencil.name).to appear_before(paper.name)
+        expect(page).to have_content("3")
+        expect(paper.name).to appear_before(@tire.name)
+        expect(page).to have_content("2")
+        expect(@tire.name).to appear_before(@pull_toy.name)
+        expect(page).to have_content("1")
+      end
+
+      within ".least-popular-items" do
+        expect(page).to have_content("1")
+        expect(@pull_toy.name).to appear_before(@tire.name)
+        expect(page).to have_content("2")
+        expect(@tire.name).to appear_before(paper.name)
+        expect(page).to have_content("3")
+        expect(paper.name).to appear_before(pencil.name)
+        expect(page).to have_content("4")
+        expect(pencil.name).to appear_before(@dog_bone.name)
+        expect(page).to have_content("5")
+      end
+    end
   end
 end
