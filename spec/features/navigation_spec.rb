@@ -87,6 +87,7 @@ RSpec.describe 'Site Navigation' do
       within 'nav' do
         expect(page).to_not have_link('Register')
         expect(page).to_not have_link('Log In')
+        expect(page).to_not have_link('Merchant Dashboard', href: merchant_path)
         expect(page).to have_link('Log Out')
       end
 
