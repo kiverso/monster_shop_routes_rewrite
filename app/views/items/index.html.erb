@@ -25,12 +25,14 @@
 </section>
 <br/>
 <section class="most-popular-items">
+  <h3>Most Popular Items:</h3>
   <% @items.sort_popularity(5, :desc).each do |item| %>
     <p> <%=link_to item.name, "/items/#{item.id}" %>:
     <%= item.qty_ordered %>
   <% end %>
 </section>
 <section class="least-popular-items">
+  <h3>Least Popular Items:</h3>
   <% @items.sort_popularity(5, :asc).each do |item| %>
     <p> <%=link_to item.name, "/items/#{item.id}" %>:
     <%= item.qty_ordered %>
