@@ -20,6 +20,25 @@ RSpec.describe "user login/logout functionality" do
       expect(current_path).to eq(profile_path)
       expect(page).to have_content("You are now logged in as #{user.name}")
     end
+
+    it "must have valid email and password to login" do
+      
+      user = create(:default_user)
+
+      visit "/"
+
+      click_link "Log In"
+
+      expect(current_path).to eq(login_path)
+
+      fill_in :email,	with: "#{user.email}"
+      fill_in :password,	with: "Hamburglar"
+
+      click_button "Login"
+
+      expect(current_path).to eq(login_path)
+      expect(page).to have_content("Valid email and password required to login to your account!")
+    end
   end
 end
 

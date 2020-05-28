@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
     user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
-  # def current_default?
-  #   @current_user && @current_user.default?
-  # end
+  def current_default?
+    current_user && current_user.default?
+  end
   
 end
