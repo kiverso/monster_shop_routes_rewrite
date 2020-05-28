@@ -4,19 +4,19 @@ require 'rails_helper'
 RSpec.describe 'Site Navigation' do
   describe 'As a Visitor' do
     it "I see a nav bar with links to all pages" do
-      visit '/merchants'
+      visit merchants_path
 
       within 'nav' do
         click_link 'All Items'
       end
 
-      expect(current_path).to eq('/items')
+      expect(current_path).to eq(items_path)
 
       within 'nav' do
         click_link 'All Merchants'
       end
 
-      expect(current_path).to eq('/merchants')
+      expect(current_path).to eq(merchants_path)
 
       within 'nav' do
         click_link 'Home'
@@ -28,23 +28,23 @@ RSpec.describe 'Site Navigation' do
         click_link 'Register'
       end
 
-      expect(current_path).to eq('/register')
+      expect(current_path).to eq(register_path)
 
       within 'nav' do
         click_link 'Log In'
       end
 
-      expect(current_path).to eq('/login')
+      expect(current_path).to eq(login_path)
     end
 
     it "I can see a cart indicator on all pages" do
-      visit '/merchants'
+      visit merchants_path
 
       within 'nav' do
         expect(page).to have_content("Cart: 0")
       end
 
-      visit '/items'
+      visit items_path
 
       within 'nav' do
         expect(page).to have_content("Cart: 0")
@@ -64,19 +64,19 @@ RSpec.describe 'Site Navigation' do
                           password: "GetSchwifty1")
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user1)
-      visit '/merchants'
+      visit merchants_path
 
       within 'nav' do
         click_link 'All Items'
       end
 
-      expect(current_path).to eq('/items')
+      expect(current_path).to eq(items_path)
 
       within 'nav' do
         click_link 'All Merchants'
       end
 
-      expect(current_path).to eq('/merchants')
+      expect(current_path).to eq(merchants_path)
 
       within 'nav' do
         click_link 'Home'
@@ -100,13 +100,13 @@ RSpec.describe 'Site Navigation' do
     end
 
     it "I can see a cart indicator on all pages" do
-      visit '/merchants'
+      visit merchants_path
 
       within 'nav' do
         expect(page).to have_content("Cart: 0")
       end
 
-      visit '/items'
+      visit items_path
 
       within 'nav' do
         expect(page).to have_content("Cart: 0")
