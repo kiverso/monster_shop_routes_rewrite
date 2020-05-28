@@ -75,11 +75,11 @@ describe Item, type: :model do
     end
 
     it "can find popularity of items" do
-      most_popular = Item.all.sort_popularity(5, :desc)
-      least_popular = Item.all.sort_popularity(5, :asc)
+      most_popular = Item.all.sort_popularity(3, :desc)
+      least_popular = Item.all.sort_popularity(3, :asc)
 
-      expect(most_popular).to eq([@dog_bone, @pencil, @paper, @tire, @pull_toy])
-      expect(least_popular).to eq([@pull_toy, @tire, @paper, @pencil, @dog_bone])
+      expect(most_popular).to eq([@dog_bone, @pencil, @paper])
+      expect(least_popular).to eq([@pull_toy, @tire, @paper])
     end
   end
 end
