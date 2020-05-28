@@ -8,4 +8,5 @@ class User < ApplicationRecord
 
 
   enum role: %w(default merchant admin)
+  
 end
