@@ -13,6 +13,11 @@ describe User, type: :model do
     it {should validate_confirmation_of(:password)}
   end
 
+  describe "relationships" do
+    it { should belong_to(:merchant).optional }
+  end
+  
+
   describe 'roles' do
     it 'can have default role of default' do
       user1 = User.create(name: "Rick Sanchez",
