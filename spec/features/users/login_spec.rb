@@ -79,6 +79,28 @@ RSpec.describe "user login/logout functionality" do
       expect(page).to have_content("Cart: 0") 
     end
   end
+
+  context "as a merchant employee" do
+    it "can log into merchant dashboard" do
+
+      employee = create(:merchant_employee)
+
+      visit "/"
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+
+      expect(current_path).to eq(merchants_path) 
+      expect(page).to have_content("You are now logged in as #{employee.name}")
+    end
+    
+    
+  end
+  
 end
 
 
