@@ -39,6 +39,45 @@ RSpec.describe "user login/logout functionality" do
       expect(current_path).to eq(login_path)
       expect(page).to have_content("Valid email and password required to login to your account!")
     end
+
+    it "will redirect to user home page if already logged in" do
+      
+      user = create(:default_user)
+
+      visit '/'
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{user.email}"
+      fill_in :password,	with: "#{user.password}"
+
+      click_button "Login"
+
+      visit login_path
+
+      expect(current_path).to eq(profile_path)
+      expect(page).to have_content("You have already logged into your account!") 
+    end
+
+    it "can logout and empty cart" do
+
+      user = create(:default_user)
+
+      visit '/'
+
+      click_link "Log In"
+
+      fill_in :email,	with: "#{user.email}"
+      fill_in :password,	with: "#{user.password}"
+
+      click_button "Login"
+
+      click_link "Log Out"
+
+      expect(current_path).to eq("/")
+      expect(page).to have_content("You have logged out of your account!")
+      expect(page).to have_content("Cart: 0") 
+    end
   end
 end
 

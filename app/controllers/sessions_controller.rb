@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
   def new
+    unless current_user.nil?
+      login_redirect
+      flash[:error] = "You have already logged into your account!"
+    end
   end
 
   def create
@@ -13,6 +17,14 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    session.delete(:cart)
+    session.delete(:user_id)
+    flash[:success] = "You have logged out of your account!"
+    redirect_to "/"
+  end
+  
 
   private
 
