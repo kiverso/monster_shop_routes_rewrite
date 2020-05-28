@@ -29,7 +29,7 @@ RSpec.describe "new user registration page" do
         click_link 'Register'
       end
 
-      expect(current_path).to eq("/register") 
+      expect(current_path).to eq(register_path) 
 
       fill_in :name,	with: @user1[:name]
       fill_in :address,	with: @user1[:address]
@@ -87,7 +87,7 @@ RSpec.describe "new user registration page" do
       fill_in :password_confirmation,	with: @user1[:password]
       click_button "Submit"
 
-      visit '/register'
+      visit register_path
 
       fill_in :name,	with: @user2[:name]
       fill_in :address,	with: @user2[:address]
