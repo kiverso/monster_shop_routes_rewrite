@@ -8,9 +8,9 @@ RSpec.describe "user login/logout functionality" do
 
       visit "/"
 
-      click_link "Login"
+      click_link "Log In"
 
-      expect(current_path).to eq("/login")
+      expect(current_path).to eq(login_path)
 
       fill_in :email,	with: "#{user.email}"
       fill_in :password,	with: "#{user.password}"
@@ -18,7 +18,7 @@ RSpec.describe "user login/logout functionality" do
       click_button "Login"
 
       expect(current_path).to eq(profile_path)
-      expect(page).to have_content("Welcome #{user.name}, you have successfully logged in!")
+      expect(page).to have_content("You are now logged in as #{user.name}")
     end
   end
 end
