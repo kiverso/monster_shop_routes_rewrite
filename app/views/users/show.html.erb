@@ -6,4 +6,4 @@
 <p>Address: <br/><%= @user.address %><br/>
 <%= @user.city %>, <%= @user.state %> <%= @user.zip %></p>
 <br/>
-<%= button_to "Edit Profile", users_path, method: :patch %>
+<%= button_to "Edit Profile", "/users/edit", method: :get %>

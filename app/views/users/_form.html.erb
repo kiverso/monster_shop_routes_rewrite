@@ -1,0 +1,19 @@
+<%= form_tag users_path, method: method do  %>
+  <%= label_tag :name %>
+  <%= text_field_tag :name, prefill_name %><br>
+  <%= label_tag :address %>
+  <%= text_field_tag :address, prefill_address %><br>
+  <%= label_tag :city %>
+  <%= text_field_tag :city, prefill_city %><br>
+  <%= label_tag :state %>
+  <%= text_field_tag :state, prefill_state %><br>
+  <%= label_tag :zip %>
+  <%= text_field_tag :zip, prefill_zip %><br>
+  <%= label_tag :email %>
+  <%= text_field_tag :email, prefill_email %><br>
+  <%= label_tag :password %>
+  <%= password_field_tag :password %><br>
+  <%= label_tag :password_confirmation %>
+  <%= password_field_tag :password_confirmation %><br>
+  <%= submit_tag "Submit" %>
+<% end %>
