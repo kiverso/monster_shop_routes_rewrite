@@ -13,14 +13,23 @@
     <%= link_to "Home", "/" %>
       <%= link_to "All Merchants", merchants_path %>
       <%= link_to "All Items", items_path %>
-      <%= link_to "Cart: #{cart.total_items}", cart_path %>
+      <% unless current_admin %>
+        <%= link_to "Cart: #{cart.total_items}", cart_path %>
+      <% end %>
       <% if current_user %>
-      <p>Logged in as <%= current_user.name %></p>
-      <%= link_to "My Profile", profile_path %>
-      <%= link_to "Log Out", "/logout", method: :delete %>
+        <p>Logged in as <%= current_user.name %></p>
+        <%= link_to "My Profile", profile_path %>
+        <%= link_to "Log Out", "/logout", method: :delete %>
       <% else %>
         <%= link_to "Register", register_path %>
         <%= link_to "Log In", login_path %>
+      <% end %>
+      <% if current_merchant? %>
+        <%= link_to "Merchant Dashboard", merchant_path %>
+      <% end %>
+      <% if current_admin %>
+        <%= link_to "Admin Dashboard" %>
+        <%= link_to "All Users" %>
       <% end %>
     </nav>
     <% flash.each do |name, msg| %>
