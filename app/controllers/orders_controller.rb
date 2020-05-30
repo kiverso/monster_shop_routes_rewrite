@@ -1,5 +1,7 @@
 class OrdersController <ApplicationController
 
+  before_action :require_registered_user
+
   def new
 
   end
@@ -31,5 +33,9 @@ class OrdersController <ApplicationController
 
   def order_params
     params.permit(:name, :address, :city, :state, :zip)
+  end
+
+  def require_registered_user
+    render file: "shared/require_login" unless current_user
   end
 end
