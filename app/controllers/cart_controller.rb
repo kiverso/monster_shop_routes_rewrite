@@ -15,6 +15,12 @@ class CartController < ApplicationController
     end
   end
 
+  def update
+    session[:cart][params[:item_id]] -= 1
+    session[:cart].delete(params[:item_id]) if session[:cart][params[:item_id]] < 1
+    redirect_to '/cart'
+  end
+
   def show
     @items = cart.items
   end

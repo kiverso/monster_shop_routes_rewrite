@@ -54,6 +54,28 @@ RSpec.describe 'Cart show' do
         end
         expect(page).to have_content('Cannot add more of this item to the cart')
       end
+
+      it 'there is a button to decrement quantity of items' do
+        visit "/cart"
+
+        @items_in_cart.each do |item|
+          within "#cart-item-#{item.id}" do
+
+            click_button "Add 1"
+
+            within ".quantity" do
+              expect(page).to have_content('2')
+            end        
+            
+            expect(page).to have_button("Subtract 1")
+            click_button "Subtract 1"
+
+            within ".quantity" do
+              expect(page).to have_content('1')
+            end
+          end       
+        end
+      end
     end
   end
 end
