@@ -76,6 +76,20 @@ RSpec.describe 'Cart show' do
           end       
         end
       end
+
+      it 'deletes from cart when quantity is decreased to zero' do
+        visit "/cart"
+
+        within "#cart-item-#{@tire.id}" do       
+          within ".quantity" do
+            expect(page).to have_content('1')
+          end
+
+          expect(page).to have_button("Subtract 1")
+          click_button "Subtract 1"
+        end
+        expect(page).to_not have_css("#cart-item-#{@tire.id}")    
+      end
     end
   end
 end
