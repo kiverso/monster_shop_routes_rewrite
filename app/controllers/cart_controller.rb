@@ -1,7 +1,10 @@
 class CartController < ApplicationController
   def add_item
     item = Item.find(params[:item_id])
-    if item.inventory >= 1
+    if cart.contents[item.id.to_s] && ((item.inventory - cart.contents[item.id.to_s]) < 1)
+      flash[:error] = "Cannot add more of this item to the cart"
+      redirect_to request.referrer
+    else
       cart.add_item(item.id.to_s)
       flash[:success] = "#{item.name} was successfully added to your cart"
       if URI(request.referrer).path == "/cart"
@@ -9,7 +12,6 @@ class CartController < ApplicationController
       else
         redirect_to "/items"
       end
-      else flash[:error] = "Cannot add more of this item to the cart"
     end
   end
 

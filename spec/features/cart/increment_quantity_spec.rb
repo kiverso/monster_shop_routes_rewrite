@@ -36,6 +36,24 @@ RSpec.describe 'Cart show' do
           end
         end
       end
+
+      it 'will not increment more than the current inventory' do
+        visit "/cart"
+
+        within "#cart-item-#{@tire.id}" do
+          click_button "Add 1"
+          within ".quantity" do
+            expect(page).to have_content('2')
+          end
+
+          click_button "Add 1"
+
+          within ".quantity" do
+            expect(page).to have_content('2')
+          end
+        end
+        expect(page).to have_content('Cannot add more of this item to the cart')
+      end
     end
   end
 end
