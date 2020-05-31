@@ -50,9 +50,11 @@ RSpec.describe("Order Creation") do
 
       click_button "Create Order"
 
+      expect(page).to have_content("Your order was created successfully")
+
       new_order = Order.last
 
-      expect(current_path).to eq("/orders/#{new_order.id}")
+      expect(current_path).to eq("/profile/orders")
 
       within '.shipping-address' do
         expect(page).to have_content(name)
@@ -90,7 +92,7 @@ RSpec.describe("Order Creation") do
         expect(page).to have_content("Total: $142")
       end
 
-      within "#datecreated" do
+      within ".datecreated" do
         expect(page).to have_content(new_order.created_at)
       end
     end
