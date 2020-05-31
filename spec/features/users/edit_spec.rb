@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-describe 'User profile show page',type: :feature do
+describe 'User profile edit page',type: :feature do
   before :each do
     @user = create(:default_user)
     @user_new = create(:default_user)
-    User.destroy(@user_new.id)
 
     visit "/"
     click_link "Log In"
@@ -13,7 +12,7 @@ describe 'User profile show page',type: :feature do
     click_button "Login"
   end
 
-  it "can show a user their profile" do
+  it "edit a user profile" do
     click_button "Edit Profile"
     expect(current_path).to eq "/users/edit"
     expect(find_field(:name).value).to eq(@user.name)
@@ -23,6 +22,7 @@ describe 'User profile show page',type: :feature do
     expect(find_field(:zip).value).to eq(@user.zip)
     expect(find_field(:email).value).to eq(@user.email)
 
+    User.destroy(@user_new.id)
     fill_in :name,	with: @user_new.name
     fill_in :address,	with: @user_new.address
     fill_in :city,	with: @user_new.city
@@ -49,7 +49,7 @@ describe 'User profile show page',type: :feature do
     click_button "Submit"
 
     expect(current_path).to eq "/users/edit"
-    expect(page).to have_content("Incorrect password.")
+    expect(page).to have_content("Incorrect password or confirmation")
     expect(User.find(@user.id).name).to eq(@user.name)
 
     fill_in :name,	with: @user_new.name
@@ -57,7 +57,7 @@ describe 'User profile show page',type: :feature do
     fill_in :password_confirmation, with: "notthepassword"
 
     expect(current_path).to eq "/users/edit"
-    expect(page).to have_content("Incorrect password.")
+    expect(page).to have_content("Incorrect password or confirmation")
     expect(User.find(@user.id).name).to eq(@user.name)
   end
 
@@ -94,9 +94,20 @@ describe 'User profile show page',type: :feature do
     click_button "Submit"
 
     expect(current_path).to eq("/users/password/edit")
-    expect(page).to have_content("Password confirmation field did not match.")
+    expect(page).to have_content("Password confirmation field did not match")
     new_pw_user = User.find(@user.id)
     pw_test = (BCrypt::Password.new(new_pw_user.password_digest) == @user.password)
     expect(pw_test).to eq(true)
+  end
+
+  it "does not allow a user to use an email used by another user" do
+    click_button "Edit Profile"
+    fill_in :email,	with: @user_new.email
+    fill_in :password, with: @user.password
+    fill_in :password_confirmation, with: @user.password
+    click_button "Submit"
+
+    expect(current_path).to eq "/users/edit"
+    expect(page).to have_content("Email has already been taken")
   end
 end

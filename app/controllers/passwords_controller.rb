@@ -9,7 +9,7 @@ class PasswordsController < ApplicationController
       flash[:success] = "Password updated!"
       redirect_to profile_path
     else
-      flash[:error] = "Password confirmation field did not match."
+      flash[:error] = "Password confirmation field did not match"
       redirect_to action: :edit
     end
   end
