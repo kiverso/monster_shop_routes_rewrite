@@ -20,9 +20,8 @@ RSpec.describe("New Order Page") do
 
     it "will not let me checkout if I am not logged in" do
       visit "/cart"
-      click_on "Checkout"
-
-      expect(page).to have_content("You must register or log in to access this.")
+      expect(page).to have_content("You must register or log in to checkout.")
+      expect(page).to_not have_link("Checkout")
     end
 
     it "I see all the information about my current cart" do
