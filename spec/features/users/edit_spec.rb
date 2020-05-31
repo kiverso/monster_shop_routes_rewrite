@@ -11,10 +11,10 @@ describe 'User profile show page',type: :feature do
     fill_in :email,	with: "#{@user.email}"
     fill_in :password, with: "#{@user.password}"
     click_button "Login"
-    click_button "Edit Profile"
   end
 
   it "can show a user their profile" do
+    click_button "Edit Profile"
     expect(current_path).to eq "/users/edit"
     expect(find_field(:name).value).to eq(@user.name)
     expect(find_field(:address).value).to eq(@user.address)
@@ -44,6 +44,7 @@ describe 'User profile show page',type: :feature do
   end
 
   it "does not update without correct password" do
+    click_button "Edit Profile"
     fill_in :name,	with: @user_new.name
     click_button "Submit"
 
@@ -61,6 +62,7 @@ describe 'User profile show page',type: :feature do
   end
 
   it "does not update if not enough information is supplied" do
+    click_button "Edit Profile"
     fill_in :name,	with: ""
     fill_in :password, with: @user.password
     fill_in :password_confirmation, with: @user.password
@@ -69,5 +71,32 @@ describe 'User profile show page',type: :feature do
     expect(current_path).to eq "/users/edit"
     expect(page).to have_content("Name can't be blank")
     expect(User.find(@user.id).name).to eq(@user.name)
+  end
+
+  it "can update a password for the user" do
+    click_button "Edit Password"
+    expect(current_path).to eq "/users/password/edit"
+    fill_in :password, with: "newpassword"
+    fill_in :password_confirmation, with: "newpassword"
+    click_button "Submit"
+
+    expect(current_path).to eq(profile_path)
+    expect(page).to have_content("Password updated!")
+    new_pw_user = User.find(@user.id)
+    pw_test = (BCrypt::Password.new(new_pw_user.password_digest) == "newpassword")
+    expect(pw_test).to eq(true)
+  end
+
+  it "does not update the password if not correctly confirmed" do
+    click_button "Edit Password"
+    fill_in :password, with: "newpassword"
+    fill_in :password_confirmation, with: "notnewpassword"
+    click_button "Submit"
+
+    expect(current_path).to eq("/users/password/edit")
+    expect(page).to have_content("Password confirmation field did not match.")
+    new_pw_user = User.find(@user.id)
+    pw_test = (BCrypt::Password.new(new_pw_user.password_digest) == @user.password)
+    expect(pw_test).to eq(true)
   end
 end
