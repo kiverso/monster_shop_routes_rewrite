@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   get '/', to: 'welcome#index'
   get '/register', to: 'users#new'
   post '/users', to: 'users#create'
+  patch '/users', to: 'users#update'
+  get '/users/edit', to: 'users#edit'
   get '/profile', to: 'users#show'
+
+  get '/users/password/edit', to: 'passwords#edit'
+  patch '/users/password', to: 'passwords#update'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'

@@ -1,0 +1,9 @@
+<h1>Edit Profile</h1>
+
+<%= render partial: 'form', locals: { method: :patch,
+                                      prefill_name: @user.name,
+                                      prefill_address: @user.address,
+                                      prefill_city: @user.city,
+                                      prefill_state: @user.state,
+                                      prefill_zip: @user.zip,
+                                      prefill_email: @user.email } %>
