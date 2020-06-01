@@ -7,10 +7,15 @@ Rails.application.routes.draw do
   get '/users/edit', to: 'users#edit'
   get '/profile', to: 'users#show'
 
-  get '/profile/orders', to: 'user_orders#index'
 
   namespace :merchant do
-    resources :orders, only: [:index, :show]
+    resources :orders, only: [:index, :show] do
+      resources :items, only: [:update]
+    end
+  end
+
+  namespace :profile do
+    resources :orders, only: [:index, :show, :destroy]
   end
 
   get '/users/password/edit', to: 'passwords#edit'
