@@ -73,10 +73,11 @@ RSpec.describe "Items Index Page" do
     end
 
     it "has statistics depending on the number of items ordered" do
+      user = create(:default_user)
       mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
       pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
-      homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000)
+      homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000, user_id: user.id)
       ItemOrder.create(order_id: homer.id, item_id: @tire.id, price: @tire.price, quantity: 2)
       ItemOrder.create(order_id: homer.id, item_id: @pull_toy.id, price: @pull_toy.price, quantity: 1)
       ItemOrder.create(order_id: homer.id, item_id: @dog_bone.id, price: @dog_bone.price, quantity: 5)

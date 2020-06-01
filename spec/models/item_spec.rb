@@ -27,6 +27,7 @@ describe Item, type: :model do
       @review_3 = @chain.reviews.create(title: "Meh place", content: "They have meh bike stuff and I probably won't come back", rating: 1)
       @review_4 = @chain.reviews.create(title: "Not too impressed", content: "v basic bike shop", rating: 2)
       @review_5 = @chain.reviews.create(title: "Okay place :/", content: "Brian's cool and all but just an okay selection of items", rating: 3)
+      @user = create(:default_user)
     end
 
     it "calculate average review" do
@@ -43,14 +44,14 @@ describe Item, type: :model do
 
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
-      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user_id: @user.id)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
 
     it "can get quantity ordered" do
       expect(@chain.qty_ordered).to eq(0)
-      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user_id: @user.id)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.qty_ordered).to eq(2)
     end
@@ -58,6 +59,7 @@ describe Item, type: :model do
 
   describe "class methods" do
     before(:each) do
+      @user = create(:default_user)
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
       mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -66,7 +68,7 @@ describe Item, type: :model do
       @dog_bone = brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
       @paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
       @pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
-      homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000)
+      homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000, user_id: @user.id)
       ItemOrder.create(order_id: homer.id, item_id: @tire.id, price: @tire.price, quantity: 2)
       ItemOrder.create(order_id: homer.id, item_id: @pull_toy.id, price: @pull_toy.price, quantity: 1)
       ItemOrder.create(order_id: homer.id, item_id: @dog_bone.id, price: @dog_bone.price, quantity: 5)

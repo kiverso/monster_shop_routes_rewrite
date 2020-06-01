@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates_presence_of :password, require: true, on: :create
   validates_confirmation_of :password
   belongs_to :merchant, optional: true
-
+  has_many :orders
 
   enum role: %w(default merchant admin)
 

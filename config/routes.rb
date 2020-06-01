@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   patch '/users', to: 'users#update'
   get '/users/edit', to: 'users#edit'
   get '/profile', to: 'users#show'
+  get '/profile/orders', to: 'user_orders#index'
 
   get '/users/password/edit', to: 'passwords#edit'
   patch '/users/password', to: 'passwords#update'
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
   get "/cart", to: "cart#show"
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
+  patch "cart/:item_id", to: "cart#update"
 
   get "/orders/new", to: "orders#new"
   post "/orders", to: "orders#create"
