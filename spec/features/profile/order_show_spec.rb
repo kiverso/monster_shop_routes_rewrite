@@ -64,12 +64,15 @@ RSpec.describe("User Order index page") do
       expect(page).to have_content("Order #{@order_1.id} has been cancelled")
       visit profile_order_path(@order_1.id)
       expect(page).to have_content('Status: cancelled')
+
       within("#item-#{@paper.id}") do
         expect(page).to have_content('unfulfilled')
       end
+      
       within("#item-#{@pencil.id}") do
         expect(page).to have_content('unfulfilled')
       end
+
       visit item_path(@paper.id)
       expect(page).to have_content('Inventory: 5')
       visit item_path(@pencil.id)
