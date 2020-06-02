@@ -3,9 +3,15 @@ require 'rails_helper'
 RSpec.describe "merchant dashboard" do
   context "as a merchant employee" do
     before(:each) do
+      @user = create(:default_user)
       @merchant = create(:merchant)
       @employee = create(:merchant_employee, merchant_id: @merchant.id)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@employee)
+      @item1 = create(:item, merchant_id: @merchant.id)
+      @item2 = create(:item, merchant_id: @merchant.id)
+      @order1 = create(:order, user_id: @user.id)
+      @item_order1 = create(:item_order, item_id: @item1.id, order_id: @order1.id)
+      @item_order1 = create(:item_order, item_id: @item2.id, order_id: @order1.id)
     end
 
     it "can see name and address of employee that I work for" do
@@ -20,6 +26,11 @@ RSpec.describe "merchant dashboard" do
         expect(page).to have_content(@merchant.zip) 
       end
     end
+
+    it "can see any pending orders" do
+      
+    end
+    
   end
 end
 # As a merchant employee
