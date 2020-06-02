@@ -36,7 +36,7 @@ describe Order, type: :model do
       expect(@order_1.item_count).to eq(5)
     end
 
-    xit 'items_from_merchant' do
+    it 'items_from_merchant' do
       expect(@order_1.items_from_merchant(@meg.id)).to eq([@item_order1])
       expect(@order_1.items_from_merchant(@brian.id)).to eq([@item_order2])
     end

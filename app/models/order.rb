@@ -13,7 +13,7 @@ class Order <ApplicationRecord
     item_orders.sum(:quantity)
   end
 
-  # def items_from_merchant(id)
-  #   binding.pry
-  # end
+  def items_from_merchant(merchant_id)
+     item_orders.joins(:item).where(items: {merchant_id: merchant_id})
+  end
 end
