@@ -31,5 +31,9 @@ describe Order, type: :model do
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
+
+    it 'item_count' do
+      expect(@order_1.item_count).to eq(5)
+    end
   end
 end

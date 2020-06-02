@@ -29,3 +29,23 @@ rick = User.create(name: "Rick Sanchez",
                     email: "PickleRick@example.com",
                     password: "password",
                     role: 2)
+
+meg = User.create(name: "Meg",
+                  address: "124 Street",
+                  city: "Denver",
+                  state: "CO",
+                  zip: "80202",
+                  email: "meg@example.com",
+                  password: "password",
+                  role: 1,
+                  merchant_id: bike_shop.id)
+
+brian = User.create(name: "Brian",
+                  address: "125 Street",
+                  city: "Denver",
+                  state: "CO",
+                  zip: "80202",
+                  email: "brian@example.com",
+                  password: "password",
+                  role: 1,
+                  merchant_id: dog_shop.id)

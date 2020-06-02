@@ -18,5 +18,7 @@ describe 'User profile show page',type: :feature do
     expect(page).to have_content(user.email)
 
     expect(page).to have_button("Edit Profile")
+
+    expect(page).to have_link('My Orders', href: profile_orders_path)
   end
 end
