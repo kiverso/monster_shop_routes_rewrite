@@ -7,3 +7,13 @@
   <%= @merchant.address %><br>
   <%= "#{@merchant.city}, #{@merchant.state}  #{@merchant.zip}" %>
 </section>
+<h1>Pending Orders</h1>
+
+<% @merchant.pending.each do |order| %>
+  <section class="pending_order-<%= order.id %>">
+    <%= link_to "Order: #{order.id}", merchant_order_path(order) %>
+    <p>Created at: <%= order.created_at %></p>
+    <p>Number of items: <%= order.item_count %></p>
+    <p>Total Cost: $<%= order.grandtotal %></p>
+  </section>
+<% end %>
