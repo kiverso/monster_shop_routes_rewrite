@@ -44,5 +44,36 @@ RSpec.describe("User Order index page") do
       expect(page).to have_content(@order_1.grandtotal)
       expect(page).to have_content(@order_1.item_count)
     end
+    it 'I can cancel the order' do
+      @orderitem1.update_column(:status, 'fulfilled')
+      @orderitem2.update_column(:status, 'fulfilled')
+
+      visit profile_orders_path
+      click_link "Order: #{@order_1.id}"
+      expect(page).to have_content('Status: pending')
+      expect(@orderitem1.status).to eq('fulfilled')
+      expect(@orderitem2.status).to eq('fulfilled')
+      expect(@paper.inventory).to eq(3)
+      expect(@pencil.inventory).to eq(100)
+
+      visit profile_orders_path
+      click_link "Order: #{@order_1.id}"
+      expect(page).to have_button("Cancel Order")
+      click_button 'Cancel Order'
+      expect(current_path).to eq(profile_path)
+      expect(page).to have_content("Order #{@order_1.id} has been cancelled")
+      visit profile_order_path(@order_1.id)
+      expect(page).to have_content('Status: cancelled')
+      within("#item-#{@paper.id}") do
+        expect(page).to have_content('unfulfilled')
+      end
+      within("#item-#{@pencil.id}") do
+        expect(page).to have_content('unfulfilled')
+      end
+      visit item_path(@paper.id)
+      expect(page).to have_content('Inventory: 5')
+      visit item_path(@pencil.id)
+      expect(page).to have_content('Inventory: 102')
+    end
   end
 end

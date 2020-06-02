@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   namespace :profile do
-    resources :orders, only: [:index, :show, :destroy]
+    resources :orders, only: [:index, :show, :update]
   end
 
   get '/users/password/edit', to: 'passwords#edit'

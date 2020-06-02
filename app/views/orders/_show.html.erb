@@ -2,6 +2,9 @@
 <h3 class="datecreated">Created: <%= @order.created_at%></h3>
 <h3 class="dateupdated">Last Updated: <%= @order.updated_at%></h3>
 <h3>Status: <%= @order.status%></h3>
+<% if current_default? %>
+  <%= button_to "Cancel Order", profile_order_path(@order.id), method: 'patch' %>
+<% end %>
 <section class = "shipping-address">
   <h3 align = "center">Shipping Info</h3>
   <table>
@@ -32,6 +35,7 @@
       <th>Price</th>
       <th>Quantity</th>
       <th>Subtotal</th>
+      <th>Fulfillment Status</th>
     </tr>
   <% @order.item_orders.each do |item_order|%>
     <tr>
@@ -42,6 +46,7 @@
         <td><p><%= number_to_currency(item_order.price)%></p></td>
         <td><p><%= item_order.quantity%></p></td>
         <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
+        <td><p><%= item_order.status %></p></td>
       </section>
     </tr>
   <% end %>
