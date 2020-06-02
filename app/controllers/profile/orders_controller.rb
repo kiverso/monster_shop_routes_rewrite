@@ -7,7 +7,7 @@ class Profile::OrdersController < Profile::BaseController
     @order = Order.find(params[:id])
   end
 
-  def update
+  def destroy
     order = Order.find(params[:id])
     order.item_orders.each do |item_order|
       if item_order.status == 'fulfilled'
