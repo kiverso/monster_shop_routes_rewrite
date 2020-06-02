@@ -20,7 +20,6 @@ RSpec.describe("User Order index page") do
       fill_in :password,	with: "#{@user.password}"
       click_button "Login"
       visit profile_orders_path
-      save_and_open_page
     end
     it 'has all order information' do
       within(".order-#{@order_1.id}") do
@@ -30,6 +29,15 @@ RSpec.describe("User Order index page") do
         expect(page).to have_content(@order_1.status)
         expect(page).to have_content(@order_1.grandtotal)
         expect(page).to have_content(@order_1.item_count)
+      end
+
+      within(".order-#{@order_2.id}") do
+        expect(page).to have_link("Order: #{@order_2.id}")
+        expect(page).to have_content(@order_2.created_at)
+        expect(page).to have_content("Last Updated:")
+        expect(page).to have_content(@order_2.status)
+        expect(page).to have_content(@order_2.grandtotal)
+        expect(page).to have_content(@order_2.item_count)
       end
     end
   end
