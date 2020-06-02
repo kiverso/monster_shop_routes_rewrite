@@ -68,7 +68,7 @@ RSpec.describe("User Order index page") do
       within("#item-#{@paper.id}") do
         expect(page).to have_content('unfulfilled')
       end
-      
+
       within("#item-#{@pencil.id}") do
         expect(page).to have_content('unfulfilled')
       end
@@ -77,6 +77,8 @@ RSpec.describe("User Order index page") do
       expect(page).to have_content('Inventory: 5')
       visit item_path(@pencil.id)
       expect(page).to have_content('Inventory: 102')
+      visit profile_order_path(@order_1.id)
+      expect(page).to_not have_button("Cancel Order")
     end
   end
 end

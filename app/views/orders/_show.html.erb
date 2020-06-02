@@ -2,7 +2,7 @@
 <h3 class="datecreated">Created: <%= @order.created_at%></h3>
 <h3 class="dateupdated">Last Updated: <%= @order.updated_at%></h3>
 <h3>Status: <%= @order.status%></h3>
-<% if current_default? %>
+<% if current_default? && @order.status != 'cancelled' %>
   <%= button_to "Cancel Order", profile_order_path(@order.id), method: 'patch' %>
 <% end %>
 <section class = "shipping-address">
