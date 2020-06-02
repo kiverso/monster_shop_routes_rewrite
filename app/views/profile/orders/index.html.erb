@@ -49,6 +49,7 @@
 
     <section id="grandtotal">
       <p>Total: <%=number_to_currency(order.grandtotal)%></p>
+      <p>Total Items: <%= order.item_count %></p>
     </section>
   </div>
 <% end %>
