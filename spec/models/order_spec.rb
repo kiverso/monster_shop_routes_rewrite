@@ -25,8 +25,8 @@ describe Order, type: :model do
       @user = create(:default_user)
       @order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user_id: @user.id)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @item_order1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      @item_order2 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
     end
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
@@ -34,6 +34,11 @@ describe Order, type: :model do
 
     it 'item_count' do
       expect(@order_1.item_count).to eq(5)
+    end
+
+    xit 'items_from_merchant' do
+      expect(@order_1.items_from_merchant(@meg.id)).to eq([@item_order1])
+      expect(@order_1.items_from_merchant(@brian.id)).to eq([@item_order2])
     end
   end
 end
