@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: 'dashboard'
+    resources :items
     resources :orders, only: [:index, :show] do
       resources :items, only: [:update]
     end

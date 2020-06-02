@@ -7,6 +7,7 @@
   <%= @merchant.address %><br>
   <%= "#{@merchant.city}, #{@merchant.state}  #{@merchant.zip}" %>
 </section>
+<%= link_to 'View Items', merchant_items_path %>
 <h1>Pending Orders</h1>
 
 <% @merchant.pending.each do |order| %>

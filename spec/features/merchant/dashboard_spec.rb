@@ -40,14 +40,14 @@ RSpec.describe "merchant dashboard" do
         expect(page).to have_content(@order1.grandtotal)
       end
     end
+
+    it "has a link to merchant items index" do
+
+      visit merchant_dashboard_path
+
+      click_link "View Items"
+
+      expect(current_path).to eq(merchant_items_path) 
+    end
   end
 end
-# As a merchant employee
-# When I visit my merchant dashboard ("/merchant")
-# If any users have pending orders containing items I sell
-# Then I see a list of these orders.
-# Each order listed includes the following information:
-# - the ID of the order, which is a link to the order show page ("/merchant/orders/15")
-# - the date the order was made
-# - the total quantity of my items in the order
-# - the total value of my items for that order
