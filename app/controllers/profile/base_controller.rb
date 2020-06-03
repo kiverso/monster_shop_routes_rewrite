@@ -1,7 +1,5 @@
 class Profile::BaseController < ApplicationController
-#  before:
-#   private
-#   def require_registered_user
-#     if 
-#   end
+  def require_registered_user
+    render file: "/public/404" unless current_user
+  end
 end
