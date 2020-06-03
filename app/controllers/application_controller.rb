@@ -23,7 +23,16 @@ class ApplicationController < ActionController::Base
   def current_admin
     current_user && current_user.admin?
   end
-  
-  
-  
+
+  def require_current_user
+    render file: "/public/404" unless current_user
+  end
+
+  def require_merchant_employee
+    render file: "/public/404" unless current_merchant?
+  end
+
+  def require_admin
+    render file: "/public/404" unless current_admin?
+  end
 end
