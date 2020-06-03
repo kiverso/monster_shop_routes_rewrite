@@ -11,7 +11,7 @@ describe Merchant, type: :model do
 
   describe "relationships" do
     it {should have_many :items}
-    
+
   end
 
   describe 'instance methods' do
@@ -64,9 +64,25 @@ describe Merchant, type: :model do
       order1 = create(:order, user_id: user.id)
       item_order1 = order1.item_orders.create!(item: item1, price: item1.price, quantity: 2)
       item_order2 = order1.item_orders.create!(item: item2, price: item2.price, quantity: 2)
-# binding.pry
-      expect(merchant.pending).to eq([order1]) 
+      expect(merchant.pending).to eq([order1])
     end
-    
+
+    it 'disable_all_items' do
+      chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+      chain.update_attribute(:active?, false)
+      @meg.disable_all_items
+
+      expect(Item.find(@tire.id).active?).to eq(false)
+      expect(Item.find(chain.id).active?).to eq(false)
+    end
+
+    it 'enable_all_items' do
+      chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+      chain.update_attribute(:active?, false)
+      @meg.enable_all_items
+
+      expect(Item.find(@tire.id).active?).to eq(true)
+      expect(Item.find(chain.id).active?).to eq(true)
+    end
   end
 end

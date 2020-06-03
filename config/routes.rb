@@ -7,6 +7,16 @@ Rails.application.routes.draw do
   get '/users/edit', to: 'users#edit'
   get '/profile', to: 'users#show'
 
+  get '/users/password/edit', to: 'passwords#edit'
+  patch '/users/password', to: 'passwords#update'
+
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
+  namespace :admin do
+    resources :merchants, only: [:index, :show, :update, :destroy]
+  end
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: 'dashboard'
@@ -20,14 +30,6 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show, :destroy]
   end
 
-  get '/users/password/edit', to: 'passwords#edit'
-  patch '/users/password', to: 'passwords#update'
-
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
-
-  # get '/merchant', to: 'merchant#show', as: 'merchant_dashboard'
   resources :merchants do
     resources :items, only: [:new, :create, :index]
   end
