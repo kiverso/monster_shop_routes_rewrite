@@ -19,11 +19,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    if current_user
-     @user = User.find(session[:user_id])
-    else
-      render file: "/public/404"
-    end
+    @user = User.find(session[:user_id])
   end
 
   def edit
