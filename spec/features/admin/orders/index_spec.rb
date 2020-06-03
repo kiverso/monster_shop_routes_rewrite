@@ -58,5 +58,23 @@ RSpec.describe("Admin Order index page") do
 
       click_link 'Log Out'
     end
+
+    it 'has a button to ship packaged orders' do
+      within(".order-#{@order_1.id}") do
+        expect(page).to have_button("Ship")
+      end
+
+      within(".order-#{@order_2.id}") do
+        expect(page).to_not have_button("Ship")
+      end
+
+      within(".order-#{@order_3.id}") do
+        expect(page).to_not have_button("Ship")
+      end
+
+      within(".order-#{@order_4.id}") do
+        expect(page).to_not have_button("Ship")
+      end
+    end
   end
 end
