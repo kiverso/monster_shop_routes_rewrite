@@ -31,6 +31,7 @@ RSpec.describe("Merchant Order Fulfillment") do
       fill_in :password,	with: "#{@merchant.password}"
       click_button "Login"
     end
+
     it 'has button to fulfill the item' do
       visit item_path(@tire.id)
       expect(page).to have_content("Inventory: 12")
@@ -46,6 +47,12 @@ RSpec.describe("Merchant Order Fulfillment") do
 
       visit item_path(@tire.id)
       expect(page).to have_content("Inventory: 10")
+    end
+
+    it 'will not be able to fulfill if there is not enough inventory' do
+      visit merchant_order_path(@order_3.id)
+      expect(page).to_not have_button('Fulfill')
+      expect(page).to have_content('Item cannot be fulfilled')
     end
   end
 end
