@@ -33,6 +33,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin
-    render file: "/public/404" unless current_admin?
+    render file: "/public/404" unless current_admin
   end
 end
