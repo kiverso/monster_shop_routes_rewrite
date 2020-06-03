@@ -150,27 +150,3 @@ RSpec.describe "As an admin" do
     end
   end
 end
-
-# As an admin
-# When I visit the admin's merchant index page ('/admin/merchants')
-# I see a "disable" button next to any merchants who are not yet disabled
-# When I click on the "disable" button
-# I am returned to the admin's merchant index page where I see that the merchant's account is now disabled
-# And I see a flash message that the merchant's account is now disabled
-#
-# As an admin
-# When I visit the merchant index page
-# And I click on the "disable" button for an enabled merchant
-# Then all of that merchant's items should be deactivated
-#
-# As an admin
-# When I visit the merchant index page
-# I see an "enable" button next to any merchants whose accounts are disabled
-# When I click on the "enable" button
-# I am returned to the admin's merchant index page where I see that the merchant's account is now enabled
-# And I see a flash message that the merchant's account is now enabled
-#
-# As an admin
-# When I visit the merchant index page
-# And I click on the "enable" button for a disabled merchant
-# Then all of that merchant's items should be activated
