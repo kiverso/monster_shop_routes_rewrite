@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   end
 
   namespace :merchant do
+    get '/', to: 'dashboard#index', as: 'dashboard'
+    resources :items
     resources :orders, only: [:index, :show] do
       resources :items, only: [:update]
     end
@@ -28,7 +30,6 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show, :destroy]
   end
 
-  get '/merchant', to: 'merchant#show', as: 'merchant_dashboard'
   resources :merchants do
     resources :items, only: [:new, :create, :index]
   end
