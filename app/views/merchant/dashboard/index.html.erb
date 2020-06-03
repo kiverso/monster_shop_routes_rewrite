@@ -1,0 +1,20 @@
+<h1>Merchant Dashboard</h1>
+
+<section class="contact">
+  <h3>Employer</h3> 
+  <%= @merchant.name %>
+  <h3>Address </h3>
+  <%= @merchant.address %><br>
+  <%= "#{@merchant.city}, #{@merchant.state}  #{@merchant.zip}" %>
+</section>
+<%= link_to 'View Items', merchant_items_path %>
+<h1>Pending Orders</h1>
+
+<% @merchant.pending.each do |order| %>
+  <section class="pending_order-<%= order.id %>">
+    <%= link_to "Order: #{order.id}", merchant_order_path(order) %>
+    <p>Created at: <%= order.created_at %></p>
+    <p>Number of items: <%= order.item_count %></p>
+    <p>Total Cost: $<%= order.grandtotal %></p>
+  </section>
+<% end %>
