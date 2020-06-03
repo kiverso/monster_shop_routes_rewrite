@@ -60,8 +60,9 @@
     </tr>
   <% end %>
 </table>
-
-<section id="grandtotal">
-  <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
-  <p>Total Items: <%= @order.item_count %></p>
-</section>
+<% if controller.class.name.split("::").first=="Profile" %>
+  <section id="grandtotal">
+    <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
+    <p>Total Items: <%= @order.item_count %></p>
+  </section>
+<% end %>
