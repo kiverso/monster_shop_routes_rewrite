@@ -26,7 +26,7 @@ RSpec.describe("Admin Order index page") do
       click_button "Login"
       visit admin_dashboard_path
     end
-    
+
     it 'has each order information' do
       within(".order-#{@order_1.id}") do
         expect(page).to have_content("Order: #{@order_1.id}")
@@ -51,7 +51,12 @@ RSpec.describe("Admin Order index page") do
         expect(page).to have_link(@order_4.user.name)
         expect(page).to have_content(@order_4.created_at)
       end
-      click_link 'Logout'
+      save_and_open_page
+      expect("Order: #{@order_1.id}").to appear_before("Order: #{@order_2.id}")
+      expect("Order: #{@order_2.id}").to appear_before("Order: #{@order_3.id}")
+      expect("Order: #{@order_3.id}").to appear_before("Order: #{@order_4.id}")
+
+      click_link 'Log Out'
     end
   end
 end
