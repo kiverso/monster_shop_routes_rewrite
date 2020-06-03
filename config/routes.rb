@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show] do
       resources :items, only: [:update]
     end
+    resources :item_orders, only: [:update]
   end
 
   namespace :profile do
