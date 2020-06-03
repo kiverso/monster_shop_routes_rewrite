@@ -54,5 +54,13 @@ RSpec.describe("Merchant Order Fulfillment") do
       expect(page).to_not have_button('Fulfill')
       expect(page).to have_content('Item cannot be fulfilled')
     end
+
+    it 'changes order status to packaged when all items are fulfilled' do
+      visit merchant_order_path(@order_2.id)
+      expect(page).to have_content('Status: pending')
+      expect(page).to have_button('Fulfill')
+      click_button 'Fulfill'
+      expect(page).to have_content('Status: packaged')
+    end
   end
 end
