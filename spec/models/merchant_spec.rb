@@ -53,5 +53,20 @@ describe Merchant, type: :model do
       expect(@meg.distinct_cities).to include("Denver")
       expect(@meg.distinct_cities).to include("Hershey")
     end
+
+    it "pending" do
+      user = create(:default_user)
+      merchant = create(:merchant)
+      employee = create(:merchant_employee, merchant_id: merchant.id)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@employee)
+      item1 = create(:item, merchant_id: merchant.id)
+      item2 = create(:item, merchant_id: merchant.id)
+      order1 = create(:order, user_id: user.id)
+      item_order1 = order1.item_orders.create!(item: item1, price: item1.price, quantity: 2)
+      item_order2 = order1.item_orders.create!(item: item2, price: item2.price, quantity: 2)
+# binding.pry
+      expect(merchant.pending).to eq([order1]) 
+    end
+    
   end
 end
