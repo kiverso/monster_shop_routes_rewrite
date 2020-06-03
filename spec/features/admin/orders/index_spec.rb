@@ -26,6 +26,7 @@ RSpec.describe("Admin Order index page") do
       click_button "Login"
       visit admin_dashboard_path
     end
+    
     it 'has each order information' do
       within(".order-#{@order_1.id}") do
         expect(page).to have_content("Order: #{@order_1.id}")
