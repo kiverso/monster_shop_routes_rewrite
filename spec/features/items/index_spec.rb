@@ -19,8 +19,7 @@ RSpec.describe "Items Index Page" do
       expect(page).to have_link(@tire.merchant.name)
       expect(page).to have_link(@pull_toy.name)
       expect(page).to have_link(@pull_toy.merchant.name)
-      expect(page).to have_link(@dog_bone.name)
-      expect(page).to have_link(@dog_bone.merchant.name)
+      expect(page).to_not have_link(@dog_bone.name)
     end
 
     it "I can see a list of all of the items "do
@@ -47,15 +46,12 @@ RSpec.describe "Items Index Page" do
         expect(page).to have_css("img[src*='#{@pull_toy.image}']")
       end
 
-      within "#item-#{@dog_bone.id}" do
-        expect(page).to have_link(@dog_bone.name)
-        expect(page).to have_content(@dog_bone.description)
-        expect(page).to have_content("Price: $#{@dog_bone.price}")
-        expect(page).to have_content("Inactive")
-        expect(page).to have_content("Inventory: #{@dog_bone.inventory}")
-        expect(page).to have_link(@brian.name)
-        expect(page).to have_css("img[src*='#{@dog_bone.image}']")
-      end
+      expect(page).to_not have_link(@dog_bone.name)
+      expect(page).to_not have_content(@dog_bone.description)
+      expect(page).to_not have_content("Price: $#{@dog_bone.price}")
+      expect(page).to_not have_content("Inactive")
+      expect(page).to_not have_content("Inventory: #{@dog_bone.inventory}")
+      expect(page).to_not have_css("img[src*='#{@dog_bone.image}']")
     end
 
     it "links to the show page from the item's image" do
@@ -67,10 +63,6 @@ RSpec.describe "Items Index Page" do
       visit items_path
       click_link "img-link-#{@pull_toy.id}"
       expect(current_path).to eq("/items/#{@pull_toy.id}")
-
-      visit items_path
-      click_link "img-link-#{@dog_bone.id}"
-      expect(current_path).to eq("/items/#{@dog_bone.id}")
     end
 
     it "has statistics depending on the number of items ordered" do
@@ -79,6 +71,7 @@ RSpec.describe "Items Index Page" do
       paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
       pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
       homer = Order.create(name: "Homer Simpson", address: "742 Evergreen Terrace", city: "Springfield", state: "CO", zip: 80000, user_id: user.id)
+      @dog_bone.update_attribute(:active?, true)
       ItemOrder.create(order_id: homer.id, item_id: @tire.id, price: @tire.price, quantity: 2)
       ItemOrder.create(order_id: homer.id, item_id: @pull_toy.id, price: @pull_toy.price, quantity: 1)
       ItemOrder.create(order_id: homer.id, item_id: @dog_bone.id, price: @dog_bone.price, quantity: 5)
