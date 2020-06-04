@@ -8,8 +8,9 @@ RSpec.describe "admin users index page" do
       @merchant = create(:merchant)
       @employee1 = create(:merchant_employee, merchant_id: @merchant.id)
       @employee2 = create(:merchant_employee, merchant_id: @merchant.id)
-      @admin = create(:admin)
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+      @admin1 = create(:admin)
+      @admin2 = create(:admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin1)
     end
 
     it "can see all users with their names as links to their show page, created at and role" do
@@ -45,7 +46,18 @@ RSpec.describe "admin users index page" do
         expect(page).to have_content("User Role: #{@employee2.role}") 
         expect(page).to have_content("Created On: #{@employee2.created_at}") 
       end
-      save_and_open_page
+      
+      within ".user-#{@admin1.id}" do
+        expect(page).to have_link(@admin1.name) 
+        expect(page).to have_content("User Role: #{@admin1.role}") 
+        expect(page).to have_content("Created On: #{@admin1.created_at}") 
+      end
+
+      within ".user-#{@admin2.id}" do
+        expect(page).to have_link(@admin2.name) 
+        expect(page).to have_content("User Role: #{@admin2.role}") 
+        expect(page).to have_content("Created On: #{@admin2.created_at}") 
+      end
     end
   end
 end
