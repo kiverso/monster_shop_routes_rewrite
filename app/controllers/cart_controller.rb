@@ -1,4 +1,6 @@
 class CartController < ApplicationController
+
+  before_action :require_cart_user
   def add_item
     item = Item.find(params[:item_id])
     if cart.contents[item.id.to_s] && ((item.inventory - cart.contents[item.id.to_s]) < 1)
@@ -35,5 +37,8 @@ class CartController < ApplicationController
     redirect_to '/cart'
   end
 
-
+  private
+  def require_cart_user
+    render file: "/public/404" if current_admin
+  end
 end
