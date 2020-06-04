@@ -41,8 +41,7 @@ RSpec.describe "Merchant Items Index Page" do
     end
 
     it "can deactivate an item as a merchant employee" do
-      employee = create(:merchant_employee)
-      employee.update_attribute(:merchant_id, @meg.id)
+      employee = create(:merchant_employee, merchant_id: @meg.id)
       visit "/"
       click_link "Log In"
 
@@ -95,8 +94,7 @@ RSpec.describe "Merchant Items Index Page" do
     end
 
     it "can reactivate an item as a merchant employee" do
-      employee = create(:merchant_employee)
-      employee.update_attribute(:merchant_id, @meg.id)
+      employee = create(:merchant_employee, merchant_id: @meg.id)
       visit "/"
       click_link "Log In"
 

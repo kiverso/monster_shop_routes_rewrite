@@ -1,0 +1,18 @@
+<%= form_tag form_path, method: method do %>
+  <%= label_tag :name %>
+  <%= text_field_tag :name, prefill_name%>
+  <br/>
+  <%= label_tag :description %>
+  <%= text_field_tag :description, prefill_desc %>
+  <br/>
+  <%= label_tag :price %>
+  <%= text_field_tag :price, prefill_price %>
+  <br/>
+  <%= label_tag :image %>
+  <%= text_field_tag :image, prefill_image %>
+  <br/>
+  <%= label_tag :inventory %>
+  <%= text_field_tag :inventory, prefill_inv %>
+  <br/>
+  <%= submit_tag 'Create Item' %>
+<% end %>

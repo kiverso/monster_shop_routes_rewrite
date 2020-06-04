@@ -42,8 +42,7 @@ RSpec.describe 'item delete', type: :feature do
       order = create(:order)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
 
-      employee = create(:merchant_employee)
-      employee.update_attribute(:merchant_id, @bike_shop.id)
+      employee = create(:merchant_employee, merchant_id: @bike_shop.id)
       visit "/"
       click_link "Log In"
 
