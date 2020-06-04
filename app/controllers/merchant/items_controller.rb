@@ -17,6 +17,14 @@ class Merchant::ItemsController < ApplicationController
     redirect_to merchant_items_path
   end
 
+  def destroy
+    item = Item.find(params[:id])
+    Review.where(item_id: item.id).destroy_all
+    item.destroy
+    flash[:success] = "#{item.name} is now deleted"
+    redirect_to merchant_items_path
+  end
+
   private
   def item_params
     params.permit(:name, :description, :price, :inventory, :image, :active?)
