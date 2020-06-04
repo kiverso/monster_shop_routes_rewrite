@@ -29,6 +29,7 @@
 <center>
   <table>
     <tr>
+      <th></th>
       <th>Item</th>
       <th>Image</th>
       <th>Description</th>
@@ -40,15 +41,17 @@
   <% items.each do |item_order|%>
     <tr>
       <section id = "item-<%=item_order.item_id%>">
-        <% if (controller.class.name.split("::").first=="Merchant") && @order.status == 'pending' %>
-          <% if (item_order.status == 'unfulfilled') && (item_order.quantity <= item_order.item.inventory) %>
-            <%= button_to 'Fulfill', merchant_item_order_path(item_order.id), method: :patch %>
-          <% elsif item_order.status == 'fulfilled' %>
-            <p>Item has already been fulfilled</p>
-          <% else %>
-            <p>Item cannot be fulfilled</p>
+        <td>
+          <% if (controller.class.name.split("::").first=="Merchant") && @order.status == 'pending' %>
+            <% if (item_order.status == 'unfulfilled') && (item_order.quantity <= item_order.item.inventory) %>
+              <%= button_to 'Fulfill', merchant_item_order_path(item_order.id), method: :patch %>
+            <% elsif item_order.status == 'fulfilled' %>
+              <p>Item has already been fulfilled</p>
+            <% else %>
+              <p>Item cannot be fulfilled</p>
+            <% end %>
           <% end %>
-        <% end %>
+        </td>
         <td><p><%=link_to item_order.item.name, "/items/#{item_order.item_id}"%></p></td>
         <td><%= image_tag item_order.item.image %></td>
         <td><p><%= item_order.item.description %></p></td>
