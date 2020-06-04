@@ -39,5 +39,125 @@ RSpec.describe "Merchant Items Index Page" do
         expect(page).to have_content("Inventory: #{@shifter.inventory}")
       end
     end
+
+    it "can deactivate an item as a merchant employee" do
+      employee = create(:merchant_employee)
+      employee.update_attribute(:merchant_id, @meg.id)
+      visit "/"
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+      visit merchant_items_path
+
+      within "#item-#{@tire.id}" do
+        expect(page).to have_content(@tire.name)
+        expect(page).to have_content("Price: $#{@tire.price}")
+        expect(page).to have_css("img[src*='#{@tire.image}']")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(@tire.description)
+        expect(page).to have_content("Inventory: #{@tire.inventory}")
+        expect(page).to have_button "Deactivate"
+        expect(page).to_not have_button "Activate"
+      end
+
+      within "#item-#{@shifter.id}" do
+        expect(page).to have_content(@shifter.name)
+        expect(page).to have_content("Price: $#{@shifter.price}")
+        expect(page).to have_css("img[src*='#{@shifter.image}']")
+        expect(page).to have_content("Inactive")
+        expect(page).to have_content(@shifter.description)
+        expect(page).to have_content("Inventory: #{@shifter.inventory}")
+        expect(page).to_not have_button "Deactivate"
+        expect(page).to have_button "Activate"
+      end
+
+      within "#item-#{@chain.id}" do
+        expect(page).to have_content(@chain.name)
+        expect(page).to have_content("Price: $#{@chain.price}")
+        expect(page).to have_css("img[src*='#{@chain.image}']")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(@chain.description)
+        expect(page).to have_content("Inventory: #{@chain.inventory}")
+        expect(page).to_not have_button "Activate"
+        click_button "Deactivate"
+      end
+
+      expect(current_path).to eq(merchant_items_path)
+      expect(page).to have_content("#{@chain.name} is no longer for sale")
+      within "#item-#{@chain.id}" do
+        expect(page).to have_button "Activate"
+        expect(page).to_not have_button "Deactivate"
+        expect(page).to have_content("Inactive")
+      end
+    end
+
+    it "can reactivate an item as a merchant employee" do
+      employee = create(:merchant_employee)
+      employee.update_attribute(:merchant_id, @meg.id)
+      visit "/"
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+      visit merchant_items_path
+
+      within "#item-#{@shifter.id}" do
+        click_button "Activate"
+      end
+
+      expect(current_path).to eq(merchant_items_path)
+      expect(page).to have_content("#{@shifter.name} is now available for sale")
+      within "#item-#{@shifter.id}" do
+        expect(page).to have_button "Deactivate"
+        expect(page).to_not have_button "Activate"
+        expect(page).to have_content("Active")
+      end
+    end
+
   end
 end
+
+# User Story 42, Merchant deactivates an item
+#
+# As a merchant employee
+# When I visit my items page
+# I see all of my items with the following info:
+#  - name
+# - description
+# - price
+# - image
+# - active/inactive status
+# - inventory
+# I see a link or button to deactivate the item next to each item that is active
+# And I click on the "deactivate" button or link for an item
+# I am returned to my items page
+# I see a flash message indicating this item is no longer for sale
+# I see the item is now inactive
+# [ ] done
+#
+# User Story 43, Merchant activates an item
+#
+# As a merchant employee
+# When I visit my items page
+# I see a link or button to activate the item next to each item that is inactive
+# And I click on the "activate" button or link for an item
+# I am returned to my items page
+# I see a flash message indicating this item is now available for sale
+# I see the item is now active
+# [ ] done
+#
+# User Story 44, Merchant deletes an item
+#
+# As a merchant employee
+# When I visit my items page
+# I see a button or link to delete the item next to each item that has never been ordered
+# When I click on the "delete" button or link for an item
+# I am returned to my items page
+# I see a flash message indicating this item is now deleted
+# I no longer see this item on the page
+# [ ] done
