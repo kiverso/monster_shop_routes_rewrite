@@ -1,5 +1,4 @@
-class Merchant::ItemsController < ApplicationController
-  before_action :require_merchant_employee
+class Merchant::ItemsController < Merchant::BaseController
 
   def index
     @merchant = current_user.merchant

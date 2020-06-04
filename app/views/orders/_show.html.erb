@@ -2,7 +2,7 @@
 <h3 class="datecreated">Created: <%= @order.created_at%></h3>
 <h3 class="dateupdated">Last Updated: <%= @order.updated_at%></h3>
 <h3>Status: <%= @order.status%></h3>
-<% if current_default? && @order.status != 'cancelled' %>
+<% if current_default? && (@order.status == 'pending' || @order.status == 'packaged') %>
   <%= button_to "Cancel Order", profile_order_path(@order.id), method: 'delete' %>
 <% end %>
 <section class = "shipping-address">
@@ -37,9 +37,18 @@
       <th>Subtotal</th>
       <th>Fulfillment Status</th>
     </tr>
-  <% @order.item_orders.each do |item_order|%>
+  <% items.each do |item_order|%>
     <tr>
-    <section id = "item-<%=item_order.item_id%>">
+      <section id = "item-<%=item_order.item_id%>">
+        <% if (controller.class.name.split("::").first=="Merchant") && @order.status == 'pending' %>
+          <% if (item_order.status == 'unfulfilled') && (item_order.quantity <= item_order.item.inventory) %>
+            <%= button_to 'Fulfill', merchant_item_order_path(item_order.id), method: :patch %>
+          <% elsif item_order.status == 'fulfilled' %>
+            <p>Item has already been fulfilled</p>
+          <% else %>
+            <p>Item cannot be fulfilled</p>
+          <% end %>
+        <% end %>
         <td><p><%=link_to item_order.item.name, "/items/#{item_order.item_id}"%></p></td>
         <td><%= image_tag item_order.item.image %></td>
         <td><p><%= item_order.item.description %></p></td>
@@ -51,8 +60,9 @@
     </tr>
   <% end %>
 </table>
-
-<section id="grandtotal">
-  <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
-  <p>Total Items: <%= @order.item_count %></p>
-</section>
+<% if controller.class.name.split("::").first=="Profile" %>
+  <section id="grandtotal">
+    <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
+    <p>Total Items: <%= @order.item_count %></p>
+  </section>
+<% end %>

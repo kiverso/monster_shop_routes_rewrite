@@ -1,0 +1,14 @@
+<h1>Admin Dashboard</h1>
+
+<% @orders.each do |order| %>
+  <section class="order-<%= order.id %>">
+    <%= link_to "#{order.user.name}", admin_user_path(order.user_id) %>
+    <p>Order: <%= order.id %></p>
+    <% if order.status == 'packaged' %>
+      <%= button_to "Ship", admin_order_path(order.id), method: 'patch' %>
+    <% end %>
+    <p>Created at: <%= order.created_at %></p>
+    <p>Status: <%= order.status %></p>
+  </section>
+<% end %>
+

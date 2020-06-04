@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   namespace :admin do
+    get '/', to: 'dashboard#index', as: 'dashboard'
+    resources :orders, only: [:update]
+    resources :users, only: [:index, :show]
     resources :merchants, only: [:index, :show, :update, :destroy]
   end
 
@@ -24,6 +27,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show] do
       resources :items, only: [:update]
     end
+    resources :item_orders, only: [:update]
   end
 
   namespace :profile do
