@@ -51,7 +51,7 @@ RSpec.describe("Admin Order index page") do
         expect(page).to have_link(@order_4.user.name)
         expect(page).to have_content(@order_4.created_at)
       end
-      save_and_open_page
+      
       expect("Order: #{@order_1.id}").to appear_before("Order: #{@order_2.id}")
       expect("Order: #{@order_2.id}").to appear_before("Order: #{@order_3.id}")
       expect("Order: #{@order_3.id}").to appear_before("Order: #{@order_4.id}")
@@ -75,6 +75,27 @@ RSpec.describe("Admin Order index page") do
       within(".order-#{@order_4.id}") do
         expect(page).to_not have_button("Ship")
       end
+    end
+
+    it 'can ship an order' do
+      within(".order-#{@order_1.id}") do
+        expect(page).to have_button("Ship")
+        expect(page).to have_content("Status: packaged")
+        click_button 'Ship'
+
+        expect(page).to_not have_button("Ship")
+        expect(page).to have_content("Status: shipped")
+      end
+      click_link 'Log Out'
+      visit "/"
+      click_link "Log In"
+      fill_in :email,	with: "#{@user.email}"
+      fill_in :password,	with: "#{@user.password}"
+      click_button "Login"
+      visit profile_order_path(@order_1.id)
+      expect(page).to have_content("Status: shipped")
+
+      expect(page).to_not have_button('Cancel Order')
     end
   end
 end
