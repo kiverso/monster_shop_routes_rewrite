@@ -3,8 +3,8 @@
 ### by [Alex Pariseau](https://github.com/arpariseau), [Kyle Iverson](https://github.com/kiverso), and [Daniel Selph](https://github.com/danielpselph)
 
 #### Ruby Version & Gems
-- Ruby v2.5.3
-- Rails v5.1.7
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/200px-Ruby_logo.svg.png" alt="Ruby Logo" width="20" height="20"/> v2.5.3
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Ruby_On_Rails_Logo.svg/200px-Ruby_On_Rails_Logo.svg.png" alt="Rails Logo" width="60" height="20" /> v5.1.7
 
 Production Gems:
 |rails|pg|puma|sass-rails|coffee-rails|
