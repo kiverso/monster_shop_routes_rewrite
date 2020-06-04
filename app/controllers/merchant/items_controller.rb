@@ -8,11 +8,17 @@ class Merchant::ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    @item.update(item_params)
     if !params[:active?].nil? && (params[:active?] == "true")
       flash[:success] = "#{@item.name} is now available for sale"
+      @item.update(item_params)
     elsif !params[:active?].nil? && (params[:active?] == "false")
       flash[:success] = "#{@item.name} is no longer for sale"
+      @item.update(item_params)
+    elsif @item.update(item_params)
+      flash[:success] = "#{@item.name} is updated"
+    else
+      flash[:error] = @item.errors.full_messages.to_sentence
+      render :edit
     end
     redirect_to merchant_items_path
   end
@@ -39,6 +45,10 @@ class Merchant::ItemsController < ApplicationController
       flash[:error] = item.errors.full_messages.to_sentence
       render :new
     end
+  end
+
+  def edit
+    @item = Item.find(params[:id])
   end
 
   private

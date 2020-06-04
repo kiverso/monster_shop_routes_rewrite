@@ -9,6 +9,7 @@
       <p> <%= item.description %> </p>
       <p>Price: <%=number_to_currency(item.price) %> </p>
       <p>Inventory: <%= item.inventory %> </p>
+      <%= button_to "Edit", edit_merchant_item_path(item.id), method: :get %>
       <% if item.active? %>
         <p>Active</p>
         <%= button_to "Deactivate", merchant_item_path(item.id), method: :patch, params: {active?: false} %>
