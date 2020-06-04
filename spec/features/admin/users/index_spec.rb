@@ -16,7 +16,7 @@ RSpec.describe "admin users index page" do
     it "can see all users with their names as links to their show page, created at and role" do
       
       visit admin_dashboard_path
-# binding.pry
+
       within 'nav' do
         click_link "Users"
       end
