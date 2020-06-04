@@ -29,6 +29,8 @@ RSpec.describe "admin users profile page" do
       expect(page).to have_content(@user1.zip)
       expect(page).to have_content(@user1.email)
 
+      expect(page).to have_no_link("Edit Profile") 
+
       visit admin_dashboard_path
 
       within 'nav' do
@@ -45,11 +47,8 @@ RSpec.describe "admin users profile page" do
       expect(page).to have_content(@employee1.state)
       expect(page).to have_content(@employee1.zip)
       expect(page).to have_content(@employee1.email)
+
+      expect(page).to have_no_link("Edit Profile") 
     end
   end
 end
-
-# As an admin user
-# When I visit a user's profile page ("/admin/users/5")
-# I see the same information the user would see themselves
-# I do not see a link to edit their profile
