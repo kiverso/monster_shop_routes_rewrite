@@ -119,7 +119,24 @@ RSpec.describe "As a merchant employee" do
         end
       end
       it "sends an error message if there's incorrect information" do
+        within "#item-#{@item.id}" do
+          click_button "Edit"
+        end
 
+        fill_in :name, with: ""
+        fill_in :price, with: "-2"
+        fill_in :description, with: @edit_item.description
+        fill_in :inventory, with: "one"
+        click_button "Update Item"
+
+        expect(page).to have_content("Name can't be blank")
+        expect(page).to have_content("Price must be greater than 0")
+        expect(page).to have_content("Inventory is not a number")
+        expect(find_field(:name).value).to eq(@item.name)
+        expect(find_field(:description).value).to eq(@item.description)
+        expect(find_field(:image).value).to eq(@item.image)
+        expect(find_field(:price).value).to eq("#{@item.price}")
+        expect(find_field(:inventory).value).to eq("#{@item.inventory}")
       end
     end
   end

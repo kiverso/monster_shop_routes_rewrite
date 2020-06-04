@@ -11,16 +11,18 @@ class Merchant::ItemsController < ApplicationController
     if !params[:active?].nil? && (params[:active?] == "true")
       flash[:success] = "#{@item.name} is now available for sale"
       @item.update(item_params)
+      redirect_to merchant_items_path
     elsif !params[:active?].nil? && (params[:active?] == "false")
       flash[:success] = "#{@item.name} is no longer for sale"
       @item.update(item_params)
+      redirect_to merchant_items_path
     elsif @item.update(item_params)
       flash[:success] = "#{@item.name} is updated"
+      redirect_to merchant_items_path
     else
       flash[:error] = @item.errors.full_messages.to_sentence
-      render :edit
+      redirect_to edit_merchant_item_path
     end
-    redirect_to merchant_items_path
   end
 
   def destroy
