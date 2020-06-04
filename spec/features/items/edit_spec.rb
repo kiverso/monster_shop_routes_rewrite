@@ -65,8 +65,78 @@ RSpec.describe "As a Visitor" do
 
         click_button "Update Item"
 
-        expect(page).to have_content("Name can't be blank and Image can't be blank")
+        expect(page).to have_content("Name can't be blank")
         expect(page).to have_button("Update Item")
+      end
+    end
+  end
+end
+
+RSpec.describe "As a merchant employee" do
+  context "on the merchant items index page" do
+    describe "clicking on the edit items button" do
+      before :each do
+        @merchant = create(:merchant)
+        @item = create(:item, merchant_id: @merchant.id)
+        @edit_item = create(:item, merchant_id: @merchant.id)
+        @edit_item.destroy
+        employee = create(:merchant_employee, merchant_id: @merchant.id)
+        visit "/"
+        click_link "Log In"
+
+        fill_in :email,	with: "#{employee.email}"
+        fill_in :password,	with: "#{employee.password}"
+
+        click_button "Login"
+        visit merchant_items_path
+      end
+      it "can update an item with new information" do
+        within "#item-#{@item.id}" do
+          click_button "Edit"
+        end
+        expect(current_path).to eq(edit_merchant_item_path(@item.id))
+
+        fill_in :name, with: @edit_item.name
+        fill_in :price, with: @edit_item.price
+        fill_in :image, with: ""
+        fill_in :description, with: @edit_item.description
+        fill_in :inventory, with: @edit_item.inventory
+        click_button "Update Item"
+
+        expect(current_path).to eq(merchant_items_path)
+        expect(page).to have_content("#{@edit_item.name} is updated")
+        within "#item-#{@item.id}" do
+          expect(page).to have_content(@edit_item.name)
+          expect(page).to_not have_content(@item.name)
+          expect(page).to have_content(@edit_item.description)
+          expect(page).to_not have_content(@item.description)
+          expect(page).to_not have_css("img[src*='#{@item.image}']")
+          expect(page).to have_css("img[src*='#{Item.find(@item.id).image}']")
+          expect(page).to have_content(@edit_item.price)
+          expect(page).to_not have_content(@item.price)
+          expect(page).to have_content(@edit_item.inventory)
+          expect(page).to_not have_content(@item.inventory)
+        end
+      end
+      it "sends an error message if there's incorrect information" do
+        within "#item-#{@item.id}" do
+          click_button "Edit"
+        end
+
+        fill_in :name, with: ""
+        fill_in :price, with: "-2"
+        fill_in :description, with: @edit_item.description
+        fill_in :inventory, with: "one"
+        click_button "Update Item"
+
+        expect(page).to have_content("Name can't be blank")
+        expect(page).to have_content("Price must be greater than 0")
+        expect(page).to have_content("Inventory is not a number")
+        expect(find_field(:name).value).to eq(@item.name)
+        expect(find_field(:description).value).to eq(@item.description)
+        expect(find_field(:image).value).to eq(@item.image)
+        expect(find_field(:price).value).to eq("#{@item.price}")
+        expect(find_field(:inventory).value).to eq("#{@item.inventory}")
       end
     end
   end

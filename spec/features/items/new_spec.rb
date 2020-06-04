@@ -70,8 +70,76 @@ RSpec.describe "Create Merchant Items" do
 
       click_button "Create Item"
 
-      expect(page).to have_content("Name can't be blank and Inventory can't be blank")
+      expect(page).to have_content("Name can't be blank, Inventory can't be blank")
       expect(page).to have_button("Create Item")
+    end
+
+    it 'can have a merchant create an item' do
+      new_item = create(:item, merchant_id: @brian.id)
+      new_item.destroy
+
+      employee = create(:merchant_employee, merchant_id: @brian.id)
+      visit "/"
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+      visit merchant_items_path
+
+      click_link "Add New Item"
+      expect(current_path).to eq(new_merchant_item_path)
+
+      fill_in :name, with: new_item.name
+      fill_in :price, with: new_item.price
+      fill_in :description, with: new_item.description
+      fill_in :inventory, with: new_item.inventory
+
+      click_button "Create Item"
+
+      test_item = Item.last
+      expect(current_path).to eq(merchant_items_path)
+      expect(page).to have_content("#{new_item.name} is saved")
+      within "#item-#{test_item.id}" do
+        expect(page).to have_content(new_item.name)
+        expect(page).to have_content("Price: $#{new_item.price}")
+        expect(page).to have_css("img[src*='#{test_item.image}']")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(new_item.description)
+        expect(page).to have_content("Inventory: #{new_item.inventory}")
+      end
+    end
+
+    it "sends an error message when given incorrect or incomplete data" do
+      new_item = create(:item, merchant_id: @brian.id)
+      new_item.destroy
+
+      employee = create(:merchant_employee, merchant_id: @brian.id)
+      visit "/"
+      click_link "Log In"
+
+      fill_in :email,	with: "#{employee.email}"
+      fill_in :password,	with: "#{employee.password}"
+
+      click_button "Login"
+      visit merchant_items_path
+
+      click_link "Add New Item"
+      expect(current_path).to eq(new_merchant_item_path)
+
+      fill_in :description, with: new_item.description
+      fill_in :price, with: "0"
+      fill_in :inventory, with: "2.50"
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Name can't be blank")
+      expect(page).to have_content("Price must be greater than 0")
+      expect(page).to have_content("Inventory must be an integer")
+      expect(find_field(:description).value).to eq(new_item.description)
+      expect(find_field(:price).value).to eq("0")
+      expect(find_field(:inventory).value).to eq("2.50")
     end
   end
 end
