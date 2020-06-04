@@ -94,7 +94,7 @@ RSpec.describe "user login/logout functionality" do
 
       click_button "Login"
 
-      expect(current_path).to eq(merchants_path) 
+      expect(current_path).to eq(merchant_dashboard_path) 
       expect(page).to have_content("You are now logged in as #{employee.name}")
     end
 
@@ -113,7 +113,7 @@ RSpec.describe "user login/logout functionality" do
 
       visit login_path
 
-      expect(current_path).to eq(merchants_path)
+      expect(current_path).to eq(merchant_dashboard_path)
       expect(page).to have_content("You have already logged into your account!") 
     end
     
