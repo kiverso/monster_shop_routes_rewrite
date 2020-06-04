@@ -6,10 +6,6 @@ class OrdersController <ApplicationController
 
   end
 
-  def show
-    @order = Order.find(params[:id])
-  end
-
   def create
     params[:user_id] = current_user.id
     order = Order.create(order_params)

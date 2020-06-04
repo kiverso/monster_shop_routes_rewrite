@@ -20,6 +20,7 @@ RSpec.describe("User Order index page") do
     it 'has order information' do
       visit profile_orders_path
       click_link "Order: #{@order_1.id}"
+      expect(current_path).to eq(profile_order_path(@order_1))
 
       expect(page).to have_content("Order: #{@order_1.id}")
       expect(page).to have_content(@order_1.created_at)

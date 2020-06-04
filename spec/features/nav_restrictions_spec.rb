@@ -33,7 +33,7 @@ RSpec.describe "navigation restrictions" do
   end
 
   context "as a merchant user" do
-    xit "will return 404 error on admin routes" do
+    it "will return 404 error on admin routes" do
       user = create(:merchant_employee)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
@@ -44,7 +44,7 @@ RSpec.describe "navigation restrictions" do
   end
 
   context "as an admin user" do
-    xit "will return 404 error for merchant and cart routes" do
+    it "will return 404 error for merchant and cart routes" do
       user = create(:admin)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 

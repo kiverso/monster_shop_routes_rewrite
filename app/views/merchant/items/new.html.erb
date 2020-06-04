@@ -1,0 +1,10 @@
+<h1>Add New Item</h1>
+
+<%= render partial: 'form', locals: {form_path: merchant_items_path,
+                                     method: :post,
+                                     prefill_name: params[:name],
+                                     prefill_desc: params[:description],
+                                     prefill_image: params[:image],
+                                     prefill_price: params[:price],
+                                     prefill_inv: params[:inventory],
+                                     button_text: "Create Item"} %>

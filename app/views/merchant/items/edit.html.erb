@@ -1,0 +1,10 @@
+<h1>Editing <%= @item.name %></h1>
+
+<%= render partial: 'form', locals: {form_path: merchant_item_path(@item.id),
+                                     method: :patch,
+                                     prefill_name: @item.name,
+                                     prefill_desc: @item.description,
+                                     prefill_image: @item.image,
+                                     prefill_price: @item.price,
+                                     prefill_inv: @item.inventory,
+                                     button_text: "Update Item"} %>
