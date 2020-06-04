@@ -17,6 +17,9 @@ Testing Gems:
 |**simplecov**|**shoulda-matchers**|**orderly**|**factory_bot_rails**|**faker**|
 
 #### Database Schema
+  The database consists of Users, Merchants, Items, Reviews, Orders, and Item Orders.  
+  Merchants have many Items, as well as many users through an optional field in the user, merchant_id. The users that belong to merchants are users with an employee role who work for a the merchant.  
+  Users can have many orders, and an order will belong to a single user. These orders can have many items through the Item Orders table. Each order can have many Item Orders which link an item to the order. Likewise, each item can have many orders through this Item Orders table.  Items can also have many reviews and a review will only belong to one item.
 ![Database Schema](https://user-images.githubusercontent.com/54010239/83819926-74966d80-a688-11ea-95fd-a272276e557a.png)
 
 #### Installing Locally
