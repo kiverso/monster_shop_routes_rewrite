@@ -1,4 +1,6 @@
 class Profile::OrdersController < Profile::BaseController
+  before_action :require_registered_user
+  
   def index
     @user = current_user
   end
