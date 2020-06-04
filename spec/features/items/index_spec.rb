@@ -58,17 +58,26 @@ RSpec.describe "Items Index Page" do
       end
     end
 
-    xit "links to the show page from the item's image" do
+    it "links to the show page from the item's image" do
+
+      # pull_toy_link = find(:xpath, "//a[contains(@href, item_path(@tire.id))]")
+      # dog_bone_link = find(:xpath, "//a[contains(@href, item_path(@tire.id))]")
+      # my_link = find(:xpath, "//a[contains(@href,'1114/inGroup/1')]")
+
       visit items_path
-      find("img[src*='#{@tire.image}']").click
+      # tire_link = find(:xpath, "//a[contains(@href, item_path(@tire.id))]")
+      # find("img[src*='#{@tire.image}']").click
+      click_link "img-link-#{@tire.id}"
       expect(current_path).to eq("/items/#{@tire.id}")
 
       visit items_path
-      find("img[src*='#{@tire.image}']").click
+      # find("img[src*='#{@pull_toy.image}']").click
+      click_link "img-link-#{@pull_toy.id}"
       expect(current_path).to eq("/items/#{@pull_toy.id}")
 
       visit items_path
-      find("img[src*='#{@tire.image}']").click
+      click_link "img-link-#{@dog_bone.id}"
+      # find("img[src*='#{@dog_bone.image}']").click
       expect(current_path).to eq("/items/#{@dog_bone.id}")
     end
 
