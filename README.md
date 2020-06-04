@@ -9,12 +9,12 @@
 Production Gems:
 |rails|pg|puma|sass-rails|coffee-rails|
 |:---:|:---:|:---:|:---:|:---:|
-|**uglifier**|**jbuilder**|**factory_bot_rails**|**faker**|**bcrypt**|
+|**uglifier**|**jbuilder**|**bcrypt**|**web-console**|**listen**|
 
 Testing Gems:
-|byebug|rspec-rails|capybara|launchy|
-|:---:|:---:|:---:|:---:|
-|**pry**|**simplecov**|**shoulda-matchers**|**orderly**|
+|byebug|rspec-rails|capybara|launchy|pry|
+|:---:|:---:|:---:|:---:|:---:|
+|**simplecov**|**shoulda-matchers**|**orderly**|**factory_bot_rails**|**faker**|
 
 #### Database Schema
 ![Database Schema](https://user-images.githubusercontent.com/54010239/83819926-74966d80-a688-11ea-95fd-a272276e557a.png)
