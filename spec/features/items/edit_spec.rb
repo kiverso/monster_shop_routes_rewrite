@@ -94,7 +94,7 @@ RSpec.describe "As a merchant employee" do
         within "#item-#{@item.id}" do
           click_button "Edit"
         end
-        expect(current_path).to eq(edit_merchant_item_path(@item.id))
+        expect(current_path).to eq(merchant_edit_item_path(@item.id))
 
         fill_in :name, with: @edit_item.name
         fill_in :price, with: @edit_item.price

@@ -1,5 +1,5 @@
 <h1><%= link_to @merchant.name, merchant_dashboard_path%><span> Items</span></h1>
-<p align="center"><%= link_to "Add New Item", new_merchant_item_path %></p>
+<p align="center"><%= link_to "Add New Item", merchant_new_item_path %></p>
 <section class="grid-container">
   <% @items.each do |item| %>
     <section class = "grid-item" id= 'item-<%=item.id%>'>
@@ -9,7 +9,7 @@
       <p> <%= item.description %> </p>
       <p>Price: <%=number_to_currency(item.price) %> </p>
       <p>Inventory: <%= item.inventory %> </p>
-      <%= button_to "Edit", edit_merchant_item_path(item.id), method: :get %>
+      <%= button_to "Edit", merchant_edit_item_path(item.id), method: :get %>
       <% if item.active? %>
         <p>Active</p>
         <%= button_to "Deactivate", merchant_item_path(item.id), method: :patch, params: {active?: false} %>

@@ -89,7 +89,7 @@ RSpec.describe "Create Merchant Items" do
       visit merchant_items_path
 
       click_link "Add New Item"
-      expect(current_path).to eq(new_merchant_item_path)
+      expect(current_path).to eq(merchant_new_item_path)
 
       fill_in :name, with: new_item.name
       fill_in :price, with: new_item.price
@@ -126,7 +126,7 @@ RSpec.describe "Create Merchant Items" do
       visit merchant_items_path
 
       click_link "Add New Item"
-      expect(current_path).to eq(new_merchant_item_path)
+      expect(current_path).to eq(merchant_new_item_path)
 
       fill_in :description, with: new_item.description
       fill_in :price, with: "0"

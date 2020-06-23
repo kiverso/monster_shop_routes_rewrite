@@ -20,7 +20,7 @@ class Merchant::ItemsController < Merchant::BaseController
       redirect_to merchant_items_path
     else
       flash[:error] = @item.errors.full_messages.to_sentence
-      redirect_to edit_merchant_item_path
+      redirect_to merchant_edit_item_path
     end
   end
 
