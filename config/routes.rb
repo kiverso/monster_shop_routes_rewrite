@@ -42,19 +42,32 @@ Rails.application.routes.draw do
     #   resources :items, only: [:update]
     # end
     get '/orders/:id', to: 'orders#show', as: 'order'
-    patch '/orders/:order_id/items/:id', to: 'items#update'
+    patch '/orders/:order_id/items/:id', to: 'items#update', as: 'order_item_update'
     get '/orders', to: 'orders#index', as: 'orders'
     # resources :item_orders, only: [:update]
     patch '/item_orders/:id', to: 'item_orders#update', as: 'item_order'
   end
 
   namespace :profile do
-    resources :orders, only: [:index, :show, :destroy]
+    # resources :orders, only: [:index, :show, :destroy]
+    get '/orders', to: 'orders#index', as: 'orders'
+    get '/orders/:id', to: 'orders#show', as: 'order'
+    delete '/orders/:id', to: 'orders#destroy', as: 'order_destroy'
   end
 
-  resources :merchants do
-    resources :items, only: [:new, :create, :index]
-  end
+  # resources :merchants do
+  #   resources :items, only: [:new, :create, :index]
+  # end
+  get '/merchants', to: 'merchants#index'
+  post '/merchants', to: 'merchants#create'
+  get '/merchants/new', to: 'merchants#new', as: 'new_merchant'
+  get '/merchants/:id/edit', to: 'merchants#edit', as: 'edit_merchant'
+  get '/merchants/:id/', to: 'merchants#show', as: 'merchant'
+  patch '/merchants/:id/', to: 'merchants#update', as: 'merchant_update'
+  delete '/merchants/:id/', to: 'merchants#destroy', as: 'merchant_destroy'
+  get '/merchants/:merchant_id/items', to: 'items#index'
+  get '/merchants/:merchant_id/items/new', to: 'items#new'
+  post '/merchants/:merchant_id/items', to: 'items#create'
 
   resources :items, except: [:new, :create] do
     resources :reviews, only: [:new, :create]
