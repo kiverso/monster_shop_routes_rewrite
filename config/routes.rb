@@ -69,9 +69,16 @@ Rails.application.routes.draw do
   get '/merchants/:merchant_id/items/new', to: 'items#new'
   post '/merchants/:merchant_id/items', to: 'items#create'
 
-  resources :items, except: [:new, :create] do
-    resources :reviews, only: [:new, :create]
-  end
+  # resources :items, except: [:new, :create] do
+  #   resources :reviews, only: [:new, :create]
+  # end
+  get '/items', to: 'items#index'
+  get '/items/:id/edit', to: 'items#edit', as: 'edit_item'
+  get '/items/:id/', to: 'items#show', as: 'item'
+  patch '/items/:id/', to: 'items#update', as: 'item_update'
+  delete '/items/:id/', to: 'items#destroy', as: 'item_destroy'
+  get '/items/:item_id/reviews/new', to: 'reviews#new'
+  post '/items/:item_id/reviews', to: 'reviews#create'
 
   resources :reviews, only: [:edit, :update, :destroy]
 
