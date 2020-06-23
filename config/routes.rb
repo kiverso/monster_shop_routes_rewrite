@@ -38,10 +38,14 @@ Rails.application.routes.draw do
     get '/items/:id/', to: 'items#show', as: 'item'
     patch '/items/:id/', to: 'items#update', as: 'item_update'
     delete '/items/:id/', to: 'items#destroy', as: 'item_destroy'
-    resources :orders, only: [:index, :show] do
-      resources :items, only: [:update]
-    end
-    resources :item_orders, only: [:update]
+    # resources :orders, only: [:index, :show] do
+    #   resources :items, only: [:update]
+    # end
+    get '/orders/:id', to: 'orders#show', as: 'order'
+    patch '/orders/:order_id/items/:id', to: 'items#update'
+    get '/orders', to: 'orders#index', as: 'orders'
+    # resources :item_orders, only: [:update]
+    patch '/item_orders/:id', to: 'item_orders#update', as: 'item_order'
   end
 
   namespace :profile do
